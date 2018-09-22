@@ -33,7 +33,6 @@ struct Opcode{
         strcpy(machineCode,machineCode_arg);
         strcpy(addressFormat,addressFormat_arg);
         next = NULL;
-        cout<<"Creating for "<<opcode<<"*"<<machineCode<<"*"<<addressFormat<<"\n";
     }
 };
 
@@ -57,12 +56,17 @@ class HashMapForOpcode{
     }
     
     public:
-    // Constructor for class with default Bucket Size as 13
+    /*
+        Constructor for class with default Bucket Size as 13
+    */
     HashMapForOpcode(int s = 13){
         bucketSize = s;
         Hashmap = new Opcode*[13];
     }
 
+    /*
+        Insert Opcode into HashMap
+    */
     void insertIntoMap(char opcode[],char machineCode[],char addressFormat[]){
         Opcode *temp = new Opcode(opcode,machineCode,addressFormat);
         int hashValue = getHashValue(opcode);
@@ -74,6 +78,21 @@ class HashMapForOpcode{
                 ptr = ptr->next;
             }
             ptr->next = temp;
+        }
+    }
+
+    /*
+        Print HashMap
+    */
+    void printHashMap(){
+        Opcode *tempPtr;
+        for(int i=0;i<bucketSize;i++){
+            cout<<i<<":\n";
+            tempPtr = Hashmap[i];
+            while(tempPtr!=NULL){
+                cout<<tempPtr->opcode<<" "<<tempPtr->machineCode<<" "<<tempPtr->addressFormat<<"\n";
+                tempPtr = tempPtr->next;
+            }
         }
     }
 
@@ -95,6 +114,7 @@ int main(){
         HMap.insertIntoMap(opcode,machineCode,addressFormat);
     }
 
+    HMap.printHashMap();
     opcode_machineCode.close();
     return 0;
 }
